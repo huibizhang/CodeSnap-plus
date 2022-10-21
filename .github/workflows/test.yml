@@ -25,11 +25,22 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - name: Get values from the package.json
-        id: packageJson
-        uses: RadovanPelka/github-action-json@main
+      - name: "Compare Version"
+        id: compare
+        uses: sharesight/compare-package-json-version-with-latest@v1.2.1
         with:
-          path: "https://raw.githubusercontent.com/huibizhang/CodeSnap-plus/master/package.json"
+          repository: ${{ github.repository }}
 
-      - run: echo "name - ${{ steps.packageJson.outputs.name }}"
-      - run: echo "version - ${{ steps.packageJson.outputs.version }}"
+      - name: Debug
+        run: |
+          echo current_version: ${{ steps.compare.outputs.current_version }}
+          echo latest_version: ${{ steps.compare.outputs.latest_version }}
+          echo matches?: ${{ steps.compare.outputs.matches }}
+          echo newer?: ${{ steps.compare.outputs.newer }}
+          echo diff: ${{ steps.compare.outputs.diff }}
+
+      - name: Fail if not newer
+        if: steps.compare.outputs.newer != 'true'
+        run: |
+          echo Version was not newer: ${{ steps.compare.outputs.current_version }} vs. ${{ steps.compare.outputs.latest_version }}
+          exit 1

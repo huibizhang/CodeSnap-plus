@@ -24,19 +24,9 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - name: Check package version
-        id: cpv
-        uses: PostHog/check-package-version@v2
-
-      - name: Echo versions
-        run: |
-            echo "Committed version: ${{ steps.cpv.outputs.committed-version }}"
-            echo "Published version: ${{ steps.cpv.outputs.published-version }}"
-
-      - name: Is New
-        if: steps.cpv.outputs.is-new-version == 'true'
-        run: echo "updated, ${{steps.cpv.outputs.committed-version}}, ${{ steps.cpv.outputs.published-version }}"
-
-      - name: Is Old
-        if: steps.cpv.outputs.is-new-version == 'false'
-        run: echo "${{steps.cpv.outputs.committed-version}}, ${{ steps.cpv.outputs.published-version }}"
+      - name: Read package.json
+        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
+        id: package-json-endpoint
+ 
+      - name: Show version number
+        run: echo "${{ steps.package-json-endpoint.outputs.endpoint }}"

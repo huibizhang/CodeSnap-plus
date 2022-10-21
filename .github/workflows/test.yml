@@ -37,7 +37,7 @@ jobs:
     name: "test2"
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ env.VERSION_UPDATED == true }}
+    if: ${{ VERSION_UPDATED == true }}
     steps:
       - name: Publish to vsce
         run: echo "do publish here."

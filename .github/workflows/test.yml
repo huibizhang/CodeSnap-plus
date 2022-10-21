@@ -35,7 +35,7 @@ jobs:
         if: ${{ steps.package-json.outputs.has-updated != true }}
         run: |
           echo "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
-          echo "${{ steps.package-json.outputs.has-updated }}"
+          echo "stauts: ${{ steps.package-json.outputs.has-updated }}"
           exit 1
 
       - uses: vishnudxb/cancel-workflow@v1.2

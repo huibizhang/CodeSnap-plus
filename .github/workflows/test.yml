@@ -27,11 +27,14 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
+      - name: Extension Version Check
+        run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_ENV
+
   test2:
     name: "test2"
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ steps.package-json.outputs.has-updated == true }}
+    if: ${{ env.VERSION_UPDATED == true }}
     steps:
       - name: Publish to vsce
         run: echo "do publish here."

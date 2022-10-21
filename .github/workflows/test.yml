@@ -48,5 +48,6 @@ jobs:
       - name: Publish to VSCE
         run: echo "do publish here."
 
-      - name: "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
+      - name: "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
+        run: extension published
         # if: ${{ steps.package-json.outputs.has-updated == true }}

@@ -25,8 +25,8 @@ jobs:
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
       - name: Check package version
-              id: cpv
-              uses: PostHog/check-package-version@v2
+        id: cpv
+        uses: PostHog/check-package-version@v2
 
       - name: Echo versions
         run: |

@@ -24,9 +24,10 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - name: Read package.json
-        uses: dutscher/read-package-json-endpoint-actions@1.33.7
-        id: package-json-endpoint
- 
-      - name: Show version number
-        run: echo "${{ steps.package-json-endpoint.outputs.endpoint }}"
+      - name: get-version-from-package-json
+        uses: polyseam/get-version-from-package-json@v.1.0.0
+        id: get-version-from-package-json
+        with:
+          path-to-file: 'https://raw.githubusercontent.com/huibizhang/CodeSnap-plus/master/package.json'
+      - name: print-version
+        run: echo "The version key in your json is ${{steps.get-version-from-package-json.outputs.version}}"

@@ -24,10 +24,15 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - name: get-version-from-package-json
-        uses: polyseam/get-version-from-package-json@1.0.0
-        id: get-version-from-package-json
+      - uses: dkershner6/npm-version-check-with-comment-action@v1
+        id: version-check
         with:
-          path-to-file: 'https://raw.githubusercontent.com/huibizhang/CodeSnap-plus/master/package.json'
-      - name: print-version
-        run: echo "The version key in your json is ${{steps.get-version-from-package-json.outputs.version}}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          
+      # Outputs whether or not it changed
+      - run: echo ${{ steps.version-check.outputs.version-did-change }}
+      
+      # Optionally fail the workflow, should you choose
+      - name: Fail on no version updated
+        if: ${{ steps.version-check.outputs.version-did-change == 'false' }}
+        run: 'echo "No version change :/" && exit 1'

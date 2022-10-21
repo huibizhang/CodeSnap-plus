@@ -47,7 +47,7 @@ jobs:
           workflow_id: ${{ github.run_id }}
           access_token: ${{ github.token }}
 
-        - run: echo "${{ needs.test.outputs.VERSION_UPDATED == true }}"
+      - run: echo "${{ needs.test.outputs.VERSION_UPDATED == true }}"
   
   test2:
     name: "Publish"

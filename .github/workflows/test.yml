@@ -32,8 +32,11 @@ jobs:
       - name: Extension Version Check
         run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
-      - uses: vishnudxb/cancel-workflow@v1.2
+      - run: exit 1
         if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
+
+      - uses: vishnudxb/cancel-workflow@v1.2
+        if: failure()
         with:
           repo: huibizhang/CodeSnap-plus
           workflow_id: ${{ github.run_id }}

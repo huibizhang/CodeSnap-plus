@@ -3,6 +3,9 @@
 
 name: test
 
+env:
+  VERSION_UPDATED: false
+
 on:
   pull_request:
     branches: [test]

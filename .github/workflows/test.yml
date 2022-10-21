@@ -17,12 +17,12 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
-      - name: Read package.json
-        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
-        id: package-json-endpoint
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
 
       - name: Show version number
-        run: echo "${{ steps.package-json-endpoint.outputs.endpoint }}"
+        run: echo "${{ steps.package-version.outputs.current-version}}"
 
       - name: Show version number2
         run: echo "${{env.PACKAGE_NUMBER}}"

@@ -39,12 +39,9 @@ jobs:
 
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
 
-      - run: echo "test output on false"
-        if: ${{ steps.package-json.outputs.has-updated != true }}
-
       - uses: vishnudxb/cancel-workflow@v1.2
         # if: failure()
-        if: ${{ steps.package-json.outputs.has-updated == true }}
+        if: ${{ steps.package-json.outputs.has-updated != true }}
         with:
           repo: huibizhang/CodeSnap-plus
           workflow_id: ${{ github.run_id }}

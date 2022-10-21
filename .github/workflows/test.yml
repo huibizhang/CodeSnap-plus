@@ -9,7 +9,6 @@ jobs:
   test:
     name: "test"
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     steps:
       - name: checkout
         uses: actions/checkout@v2

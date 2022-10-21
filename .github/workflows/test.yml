@@ -40,7 +40,7 @@ jobs:
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
 
       - run: echo "test output on false"
-        if: ${{ steps.package-json.outputs.has-updated == false }}
+        if: ${{ steps.package-json.outputs.has-updated != true }}
 
       - uses: vishnudxb/cancel-workflow@v1.2
         # if: failure()

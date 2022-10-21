@@ -40,3 +40,6 @@ jobs:
 
       - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
         if: ${{ steps.package-json.outputs.has-updated == true }}
+
+      - run: exit
+        if: ${{ steps.package-json.outputs.has-updated == false }}

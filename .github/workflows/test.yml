@@ -30,17 +30,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         
       - name: Extension Version Check
-        if: ${{ steps.package-json.outputs.has-updated == true }}
-        run: |
-          echo "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
-          echo "stauts: ${{ steps.package-json.outputs.has-updated }}"
-          exit 1
+        run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
-        # run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
+        # if: ${{ steps.package-json.outputs.has-updated == true }}
+        # run: |
+        #   echo "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
+        #   echo "stauts: ${{ steps.package-json.outputs.has-updated }}"
+
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
 
       - uses: vishnudxb/cancel-workflow@v1.2
-        if: failure()
+        # if: failure()
+        if: ${{ steps.package-json.outputs.has-updated == true }}
         with:
           repo: huibizhang/CodeSnap-plus
           workflow_id: ${{ github.run_id }}
@@ -50,7 +51,7 @@ jobs:
     name: "Publish"
     runs-on: ubuntu-latest
     needs: test
-    # if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
+    if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
     steps:
       - uses: johnnybenson/package-json-versioned-action@v1.0.5
         id: package-json
@@ -61,5 +62,5 @@ jobs:
         run: echo "do publish here."
 
       - name: "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
-        run: extension published
+        run: echo "extension published"
         # if: ${{ steps.package-json.outputs.has-updated == true }}

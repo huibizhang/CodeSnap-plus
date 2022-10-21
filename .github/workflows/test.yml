@@ -3,12 +3,16 @@
 
 name: test
 
-on: push
+on:
+  pull_request:
+    branches: [test]
+    types: [closed]
 
 jobs:
   test:
     name: "test"
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -29,6 +33,10 @@ jobs:
         id: package-json
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-      - run: echo "has-updated -- ${{ steps.package-json.outputs.has-updated }}"
-      - run: echo "previous-version -- ${{ steps.package-json.outputs.previous-version }}"
-      - run: echo "version -- ${{ steps.package-json.outputs.version }}"
+
+      - name: Publish to vsce
+        if: steps.package-json.outputs.has-updated
+        run: echo "has-updated -- ${{ steps.package-json.outputs.has-updated }}"
+        
+      - run: echo "extension published: ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
+        if: steps.package-json.outputs.has-updated

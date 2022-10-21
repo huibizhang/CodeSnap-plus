@@ -22,24 +22,22 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
-
-      - name: Show version number
-        run: echo "${{ steps.package-version.outputs.current-version}}"
-
       - uses: johnnybenson/package-json-versioned-action@v1.0.5
         id: package-json
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      - name: Publish to vsce
-        if: ${{ steps.package-json.outputs.has-updated == true }}
-        run: echo "do publish here. ${{ steps.package-json.outputs.has-updated }}"
-
-      - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
-        if: ${{ steps.package-json.outputs.has-updated == true }}
-
-      - run: exit
+      - name: package version check
         if: ${{ steps.package-json.outputs.has-updated == false }}
+        run: exit(1)
+
+  test2:
+    name: "test2"
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Publish to vsce
+        run: echo "do publish here."
+
+      # - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
+        # if: ${{ steps.package-json.outputs.has-updated == true }}

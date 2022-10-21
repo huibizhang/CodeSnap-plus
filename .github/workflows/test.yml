@@ -35,4 +35,4 @@ jobs:
       # Optionally fail the workflow, should you choose
       - name: Fail on no version updated
         if: ${{ steps.version-check.outputs.version-did-change == 'false' }}
-        run: 'echo "No version change :/" && exit 1'
+        run: echo "No version change :/"

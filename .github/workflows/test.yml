@@ -32,7 +32,7 @@ jobs:
       - uses: dkershner6/npm-version-check-with-comment-action@v1
         id: version-check
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.MY_GITHUB_TOKEN }}"
           
       # Outputs whether or not it changed
       - run: echo ${{ steps.version-check.outputs.version-did-change }}

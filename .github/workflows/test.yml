@@ -3,11 +3,16 @@
 
 name: test
 
-on: push
+on:
+  pull_request:
+    branches: [test]
+    types: [closed]
 
 jobs:
   test:
+    name: "test"
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     steps:
       - name: checkout
         uses: actions/checkout@v2

@@ -41,7 +41,7 @@ jobs:
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
         # if: failure()
 
-      - run: echo "${{ needs.test.outputs.output1 }}"
+      - run: echo ${{ steps.package-json.outputs.has-updated }}
 
       # - uses: vishnudxb/cancel-workflow@v1.2
       #   if: ${{ steps.package-json.outputs.version != steps.package-json.outputs.previous-version }}

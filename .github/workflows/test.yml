@@ -3,9 +3,6 @@
 
 name: test
 
-env:
-  VERSION_UPDATED: false
-
 on:
   pull_request:
     branches: [test]
@@ -16,6 +13,8 @@ jobs:
     name: "test"
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
+    output:
+      VERSION_UPDATED: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -31,13 +30,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Extension Version Check
-        run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_ENV
+        run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
   test2:
     name: "test2"
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ VERSION_UPDATED == true }}
+    if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
     steps:
       - name: Publish to vsce
         run: echo "do publish here."

@@ -44,9 +44,9 @@ jobs:
     name: "Publish"
     runs-on: ubuntu-latest
     needs: test
-    # if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
+    if: ${{ needs.test.outputs.VERSION_UPDATED }}
     steps:
-      - run: echo "${{ needs.test.outputs.VERSION_UPDATED == true }}"
+      - run: echo "${{ needs.test.outputs.VERSION_UPDATED }}"
 
       - uses: johnnybenson/package-json-versioned-action@v1.0.5
         id: package-json

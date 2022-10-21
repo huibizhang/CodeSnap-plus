@@ -25,4 +25,4 @@ jobs:
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
       - name: Show version number2
-        run: echo "${{ steps.package-version.outputs}}"
+        run: echo "${{ steps.package-version.outputs.lastes-version}}"

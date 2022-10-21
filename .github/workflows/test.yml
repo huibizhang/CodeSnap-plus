@@ -27,14 +27,11 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      - name: package version check
-        if: ${{ steps.package-json.outputs.has-updated != true }}
-        run: exit()
-
   test2:
     name: "test2"
     runs-on: ubuntu-latest
     needs: test
+    if: ${{ steps.package-json.outputs.has-updated == true }}
     steps:
       - name: Publish to vsce
         run: echo "do publish here."

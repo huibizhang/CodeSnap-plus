@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     outputs:
-      output1: ${{ steps.checker.outputs.result }}
+      output1: ${{ steps.checker.outputs.output1 }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
         
       - id: checker
         name: Extension Version Check
-        run: echo "result=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
+        run: echo "output1=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
         # if: ${{ steps.package-json.outputs.has-updated == true }}
         # run: |

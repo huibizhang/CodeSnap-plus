@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     outputs:
-      VERSION_UPDATED: false
+      VERSION_UPDATED: ${{ steps.versioncheck.outputs.VERSION_UPDATED }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -30,6 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         
       - name: Extension Version Check
+        id: versioncheck
         run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
         # if: ${{ steps.package-json.outputs.has-updated == true }}

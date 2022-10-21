@@ -25,7 +25,7 @@ jobs:
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
       - name: get-version-from-package-json
-        uses: polyseam/get-version-from-package-json@v.1.0.0
+        uses: polyseam/get-version-from-package-json@1.0.0
         id: get-version-from-package-json
         with:
           path-to-file: 'https://raw.githubusercontent.com/huibizhang/CodeSnap-plus/master/package.json'

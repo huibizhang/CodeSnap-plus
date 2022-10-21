@@ -3,10 +3,7 @@
 
 name: test
 
-on:
-  pull_request:
-    branches: [test]
-    types: [closed]
+on: push
 
 jobs:
   test:
@@ -29,15 +26,11 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - uses: dkershner6/npm-version-check-with-comment-action@v1
-        id: version-check
+      - name: Get values from the package.json
+        id: packageJson
+        uses: RadovanPelka/github-action-json@main
         with:
-          github-token: "${{ secrets.MY_GITHUB_TOKEN }}"
-          
-      # Outputs whether or not it changed
-      - run: echo ${{ steps.version-check.outputs.version-did-change }}
-      
-      # Optionally fail the workflow, should you choose
-      - name: Fail on no version updated
-        if: ${{ steps.version-check.outputs.version-did-change == 'false' }}
-        run: echo "No version change :/"
+          path: "https://raw.githubusercontent.com/huibizhang/CodeSnap-plus/master/package.json"
+
+      - run: echo "name - ${{ steps.packageJson.outputs.name }}"
+      - run: echo "version - ${{ steps.packageJson.outputs.version }}"

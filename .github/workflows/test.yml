@@ -49,7 +49,7 @@ jobs:
         run: echo "do publish here."
 
       - uses: vishnudxb/cancel-workflow@v1.2
-        if: ${{ steps.package-json.outputs.has-updated != true }}
+        if: ${{ steps.package-json.outputs.has-updated == false }}
         with:
           repo: huibizhang/CodeSnap-plus
           workflow_id: ${{ github.run_id }}

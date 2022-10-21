@@ -25,22 +25,10 @@ jobs:
       - name: Show version number
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
-      - name: "Compare Version"
-        id: compare
-        uses: sharesight/compare-package-json-version-with-latest@v1.2.1
+      - uses: johnnybenson/package-json-versioned-action@v1.0.5
+        id: package-json
         with:
-          repository: ${{ github.repository }}
-
-      - name: Debug
-        run: |
-          echo current_version: ${{ steps.compare.outputs.current_version }}
-          echo latest_version: ${{ steps.compare.outputs.latest_version }}
-          echo matches?: ${{ steps.compare.outputs.matches }}
-          echo newer?: ${{ steps.compare.outputs.newer }}
-          echo diff: ${{ steps.compare.outputs.diff }}
-
-      - name: Fail if not newer
-        if: steps.compare.outputs.newer != 'true'
-        run: |
-          echo Version was not newer: ${{ steps.compare.outputs.current_version }} vs. ${{ steps.compare.outputs.latest_version }}
-          exit 1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "has-updated -- ${{ steps.package-json.outputs.has-updated }}"
+      - run: echo "previous-version -- ${{ steps.package-json.outputs.previous-version }}"
+      - run: echo "version -- ${{ steps.package-json.outputs.version }}"

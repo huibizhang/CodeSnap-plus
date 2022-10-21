@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: package version check
-        if: ${{ steps.package-json.outputs.has-updated == false }}
+        if: ${{ steps.package-json.outputs.has-updated != true }}
         run: exit(1)
 
   test2:

@@ -29,7 +29,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
-        name: Extension Version Check
+      - name: Extension Version Check
         run: echo "output1=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
         # if: ${{ steps.package-json.outputs.has-updated == true }}

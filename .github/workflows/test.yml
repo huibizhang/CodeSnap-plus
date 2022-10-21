@@ -35,8 +35,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Publish to vsce
-        if: ${{ steps.package-json.outputs.has-updated }}
+        if: ${{ steps.package-json.outputs.has-updated == true }}
         run: echo "do publish here. ${{ steps.package-json.outputs.has-updated }}"
 
       - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
-        if: ${{ steps.package-json.outputs.has-updated }}
+        if: ${{ steps.package-json.outputs.has-updated == true }}

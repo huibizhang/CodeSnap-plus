@@ -32,14 +32,24 @@ jobs:
       - name: Extension Version Check
         run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
-  test2:
-    name: "test2"
-    runs-on: ubuntu-latest
-    needs: test
-    if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
-    steps:
+      - uses: vishnudxb/cancel-workflow@v1.2
+        if: ${{ steps.package-json.outputs.has-updated != true }}
+        with:
+          repo: huibizhang/CodeSnap-plus
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}
+
       - name: Publish to vsce
         run: echo "do publish here."
+      
+      - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
+        if: ${{ steps.package-json.outputs.has-updated == true }}
 
-      # - run: echo "extension published. from ${{ steps.package-json.outputs.previous-version }} -> ${{ steps.package-json.outputs.version }}"
-        # if: ${{ steps.package-json.outputs.has-updated == true }}
+  # test2:
+  #   name: "test2"
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   if: ${{ needs.test.outputs.VERSION_UPDATED == true }}
+  #   steps:
+  #     - name: Publish to vsce
+  #       run: echo "do publish here."

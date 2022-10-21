@@ -29,7 +29,7 @@ jobs:
 
       - name: package version check
         if: ${{ steps.package-json.outputs.has-updated != true }}
-        run: exit(1)
+        run: exit()
 
   test2:
     name: "test2"

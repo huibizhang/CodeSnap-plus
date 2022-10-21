@@ -29,8 +29,8 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         
-      - name: Extension Version Check
-        id: checker
+      - id: checker
+        name: Extension Version Check
         run: echo "result=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
 
         # if: ${{ steps.package-json.outputs.has-updated == true }}
@@ -48,7 +48,7 @@ jobs:
           workflow_id: ${{ github.run_id }}
           access_token: ${{ github.token }}
 
-      - run: echo "${{ needs.test.outputs.output1 == true }}"
+      - run: echo "${{ needs.test.outputs.output1 }}"
   
   test2:
     name: "Publish"

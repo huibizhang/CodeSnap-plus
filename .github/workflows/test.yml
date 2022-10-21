@@ -25,4 +25,4 @@ jobs:
         run: echo "${{ steps.package-version.outputs.current-version}}"
 
       - name: Show version number2
-        run: echo "${{env.PACKAGE_NUMBER}}"
+        run: echo "${{env.PACKAGE_VERSION}}"

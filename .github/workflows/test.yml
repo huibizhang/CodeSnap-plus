@@ -13,8 +13,8 @@ jobs:
     name: "Checking"
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
-    outputs:
-      VERSION_UPDATED: false
+    # outputs:
+    #   VERSION_UPDATED: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -31,7 +31,8 @@ jobs:
         
       - name: Extension Version Check
         # run: echo "VERSION_UPDATED=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
-        if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
+        # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
+        if: ${{ steps.package-json.outputs.has-updated != true }}
         run: exit 1
 
       - uses: vishnudxb/cancel-workflow@v1.2

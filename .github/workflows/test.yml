@@ -41,14 +41,14 @@ jobs:
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
         # if: failure()
 
+      - run: echo "${{ needs.test.outputs.output1 }}"
+
       - uses: vishnudxb/cancel-workflow@v1.2
         if: ${{ steps.package-json.outputs.version != steps.package-json.outputs.previous-version }}
         with:
           repo: huibizhang/CodeSnap-plus
           workflow_id: ${{ github.run_id }}
           access_token: ${{ github.token }}
-
-      - run: echo "${{ needs.test.outputs.output1 }}"
   
   test2:
     name: "Publish"

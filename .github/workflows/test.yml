@@ -78,3 +78,15 @@ jobs:
       # - name: "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
       #   run: echo "extension published"
         # if: ${{ steps.package-json.outputs.has-updated == true }}
+
+  test3:
+    name: "Cancel"
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ needs.test.outputs.output2 == needs.test.outputs.output3 }}
+    steps:
+      - uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: huibizhang/CodeSnap-plus
+          workflow_id: ${{ github.run_id }}
+          access_token: ${{ github.token }}

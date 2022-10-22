@@ -45,7 +45,7 @@ jobs:
   canceler:
     name: "Cancel"
     runs-on: ubuntu-latest
-    needs: test
+    needs: checking
     if: ${{ needs.test.outputs.output2 == needs.test.outputs.output3 }}
     steps:
       - uses: vishnudxb/cancel-workflow@v1.2

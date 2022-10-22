@@ -45,7 +45,7 @@ jobs:
       - run: echo ${{ steps.package-json.outputs.has-updated }}
 
       - name: Publish to VSCE
-        if: ${{ steps.package-json.outputs.has-updated }}
+        if: ${{ steps.package-json.outputs.has-updated == true }}
         run: echo "do publish here."
 
       - uses: vishnudxb/cancel-workflow@v1.2

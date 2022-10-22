@@ -1,9 +1,9 @@
 {
   "name": "codesnap-plus",
   "displayName": "CodeSnap-plus",
-  
+
   "description": "📸 Take beautiful screenshots of your code in VS Code! And you can hightlight the line just by click.",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/huibizhang/CodeSnap-plus"

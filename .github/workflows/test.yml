@@ -43,7 +43,10 @@ jobs:
         # if: ${{ needs.test.outputs.VERSION_UPDATED != true }}
         # if: failure()
 
-      - run: echo ${{ steps.package-json.outputs.has-updated }}
+      - run: |
+          echo ${{ steps.package-json.outputs.has-updated }}
+          echo "${{ steps.package-json.outputs.previous-version }}, ${{ steps.package-json.outputs.version }}"
+          echo ${{ steps.package-json.outputs.previous-version == steps.package-json.outputs.version }}
 
       # - name: Publish to VSCE
       #   if: ${{ steps.package-json.outputs.has-updated == true }}

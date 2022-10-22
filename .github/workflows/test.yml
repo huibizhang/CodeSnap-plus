@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.merged && github.head_ref == 'dev' }}
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
+      output1: ${{ steps.package-json.outputs.has-updated }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -29,9 +29,9 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      - name: Extension Version Check
-        id: step1
-        run: echo "test=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
+      # - name: Extension Version Check
+      #   id: step1
+      #   run: echo "test=${{ steps.package-json.outputs.has-updated }}" >> $GITHUB_OUTPUT
         # run: |
         #   echo ::set-output name=output1::${{ steps.package-json.outputs.has-updated }}
 
@@ -68,7 +68,7 @@ jobs:
       #     GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Publish to VSCE
-        run: echo "do publish here."
+        run: echo "do publish here. ${{ needs.test.outputs.output1 }}"
 
       # - name: "Update from ${{ steps.package-json.outputs.previous-version }} to ${{ steps.package-json.outputs.version }}"
       #   run: echo "extension published"

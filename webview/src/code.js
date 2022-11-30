@@ -38,7 +38,7 @@ const setupLines = (node, config) => {
           this.parentNode.classList.remove("line-focus");
           this.parentNode.classList.remove("git-add");
           this.parentNode.classList.remove("git-remove");
-          lineNum.classList.remove('text-white')
+          lineNum.classList.remove('!text-white')
 
         } else {
           this.parentNode.classList.add("line-focus");

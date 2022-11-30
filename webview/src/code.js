@@ -19,8 +19,6 @@ const setupLines = (node, config) => {
       
       // lineNumber click event
       lineNum.onclick = function (e) {
-        var firstRowIsWhiteSpace = this.nextSibling.firstChild.firstChild.innerText.trim() === "";
-
         if(this.parentNode.classList.contains("line-focus")) {
           
           this.parentNode.classList.remove("line-focus");

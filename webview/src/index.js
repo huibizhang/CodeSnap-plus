@@ -1,4 +1,4 @@
-import { $, $$, setVar } from './util.js';
+import { $, $$, setVar, throttle } from './util.js';
 import { pasteCode } from './code.js';
 import { takeSnap, cameraFlashAnimation } from './snap.js';
 
@@ -74,8 +74,8 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
       btnCopy.textContent = "Save As..."
     }
 
-    btnSave.addEventListener('click', actions[0])
-    btnCopy.addEventListener('click', actions[1])
+    btnSave.addEventListener('click', throttle(actions[0], 1000))
+    btnCopy.addEventListener('click', throttle(actions[1], 1000))
 
     if(!showLineNumbers) {
       document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');

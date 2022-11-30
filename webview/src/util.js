@@ -18,3 +18,13 @@ export const calcTextWidth = (text) => {
   div.remove();
   return width + 1 + 'px';
 };
+
+export const throttle = (func, limit) => {
+	let lastRan;
+	return (...args) => {
+		if (!lastRan || Date.now() - lastRan >= limit) {
+			func.apply(null, ...args);
+			lastRan = Date.now();
+		}
+	};
+};

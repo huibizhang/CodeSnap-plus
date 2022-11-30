@@ -9,7 +9,7 @@ const btnSave = $('#save');
 const btnCopy = $('#secondMainBtn');
 
 const showLineNumBtn = $('#showLineNumBtn');
-const showWindowControls = $('#showWindowControls');
+const showWindowControlsBtn = $('#showWindowControlsBtn');
 const modeChangeBtn = $("#modeChangeBtn")
 
 let _toolMode;

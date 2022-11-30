@@ -809,7 +809,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: var(--container-padding);
-  background-color: var(--container-background-color);
+  background: var(--container-background-color);
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -827,7 +827,7 @@ body {
   width: max-content;
   min-width: 100px;
   padding: 18px;
-  background-color: var(--vscode-editor-background);
+  background: var(--vscode-editor-background);
 }
 
 #navbar {
@@ -855,7 +855,7 @@ body {
   max-width: 100%;
   word-break: break-all;
   color: var(--vscode-editor-foreground);
-  background-color: var(--vscode-editor-background);
+  background: var(--vscode-editor-background);
   font-family: var(--vscode-editor-font-family);
   font-size: calc(var(--vscode-editor-font-size) * 1px);
   font-weight: var(--vscode-editor-font-weight);

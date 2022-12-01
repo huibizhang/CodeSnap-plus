@@ -76,6 +76,8 @@ const hasOneSelection = (selections) =>
 const runCommand = async (context) => {
   const panel = await createPanel(context);
 
+  panel.webview.postMessage({ type: 'setup-ui', ...getConfig() });
+
   const update = async () => {
     await vscode.commands.executeCommand('editor.action.clipboardCopyWithSyntaxHighlightingAction');
     panel.webview.postMessage({ type: 'update', ...getConfig() });

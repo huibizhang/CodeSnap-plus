@@ -9,7 +9,7 @@ const btnSave = $('#save');
 const btnCopy = $('#secondMainBtn');
 
 const showLineNumBtn = $('#showLineNumBtn');
-const showWindowControls = $('#showWindowControls');
+const showWindowControlsBtn = $('#showWindowControlsBtn');
 const modeChangeBtn = $("#modeChangeBtn")
 
 let _toolMode;
@@ -23,7 +23,62 @@ document.addEventListener('copy', () => takeSnap({ ...config, shutterAction: 'co
 document.addEventListener('paste', (e) => pasteCode(config, e.clipboardData));
 
 window.addEventListener('message', ({ data: { type, ...cfg } }) => {
-  if (type === 'update') {
+  if (type === 'setup-ui') {
+    config = cfg;
+
+    const {
+      showWindowTitle,
+      shutterAction,
+      toolMode
+    } = config;
+
+    _toolMode = toolMode
+
+    let actions = []
+    if (shutterAction === "save") {
+      actions = [
+        () => takeSnap(config), 
+        () => takeSnap({ ...config, shutterAction: 'copy' }),
+      ]
+      btnCopy.textContent = "Copy"
+    } else {
+      actions = [
+        () => takeSnap(config),
+        () => takeSnap({ ...config, shutterAction: 'save' }), 
+      ]
+      btnCopy.textContent = "Save As..."
+    }
+
+    btnSave.addEventListener('click', actions[0])
+    btnCopy.addEventListener('click', actions[1])
+
+    showLineNumBtn.addEventListener('click', () => {
+      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
+
+      // showLineNumBtn.firstChild.classList.toggle('opacity-100');
+
+      const lineNums = $$('.line-number');
+    
+      lineNums.forEach(lineNum => {
+        lineNum.classList.toggle("hidden")
+      })
+    })
+
+
+    showWindowControlsBtn.addEventListener('click', () => {
+      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
+      windowControlsNode.hidden = !windowControlsNode.hidden
+      navbarNode.hidden = windowControlsNode.hidden && !showWindowTitle;
+    })
+
+    toolModeToggled()
+
+    modeChangeBtn.addEventListener('click', () => {
+      _toolMode = _toolMode==='advanced' ? 'simple': 'advanced'
+      toolModeToggled()
+    })
+  }
+  else if (type === 'update') {
     config = cfg;
 
     const {
@@ -36,7 +91,6 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
       showWindowControls,
       showWindowTitle,
       windowTitle,
-      shutterAction,
       showLineNumbers,
       toolMode
     } = config;
@@ -57,66 +111,22 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
 
     windowTitleNode.textContent = windowTitle;
 
+    if (!showLineNumbers) {
+      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
+    }
+
+    if (!showWindowControls){
+      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
+    }
+
     document.execCommand('paste');
-
-    let actions = []
-    if(shutterAction == "save") {
-      actions = [
-        () => takeSnap(config), 
-        () => takeSnap({ ...config, shutterAction: 'copy' }),
-      ]
-      btnCopy.textContent = "Copy"
-    } else {
-      actions = [
-        () => takeSnap(config),
-        () => takeSnap({ ...config, shutterAction: 'save' }), 
-      ]
-      btnCopy.textContent = "Save As..."
-    }
-
-    btnSave.addEventListener('click', actions[0])
-    btnCopy.addEventListener('click', actions[1])
-
-    if(!showLineNumbers) {
-      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
-    }
-
-    showLineNumBtn.addEventListener('click', () => {
-
-      document.getElementById('showLineNumBtn').children[0].children[0].classList.toggle('opacity-0');
-
-      // showLineNumBtn.firstChild.classList.toggle('opacity-100');
-
-      const lineNums = $$('.line-number');
-    
-      lineNums.forEach(lineNum => {
-        lineNum.classList.toggle("hidden")
-      })
-    })
-
-    if(!showWindowControls){
-      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
-    }
-    showWindowControlsBtn.addEventListener('click', () => {
-      document.getElementById('showWindowControlsBtn').children[0].children[0].classList.toggle('opacity-0');
-      windowControlsNode.hidden = !windowControlsNode.hidden
-      navbarNode.hidden = windowControlsNode.hidden && !showWindowTitle;
-    })
-
-    toolModeToggled()
-
-    modeChangeBtn.addEventListener('click', () => {
-      _toolMode = _toolMode==='advanced' ? 'simple': 'advanced'
-      toolModeToggled()
-    })
-
   } else if (type === 'flash') {
     cameraFlashAnimation();
   }
 });
 
 const toolModeToggled = () => {
-  if(_toolMode=='advanced') {
+  if(_toolMode === 'advanced') {
     btnCopy.classList.remove("hidden")
     $('#showLineNumBtn').classList.remove("hidden")
     $('#showWindowControlsBtn').classList.remove("hidden")
